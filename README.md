@@ -52,22 +52,23 @@ STOCK_DATA_SOURCE=yfinance
 
 Run the main script:
 ```bash
-python src/main.py
+python main.py
 ```
 
-The system will prompt you for a stock ticker, analyze it using all agents in parallel, and save detailed reports to the `analysis_results` directory.
+The system will analyze Microsoft (MSFT) by default, using all agents in parallel, and save detailed reports to the `results` directory.
 
 ## Output Files
 
 For each analyzed stock (e.g., MSFT):
 
-- `analysis_results/MSFT_decision.md`: Final synthesized investment recommendation
-- `analysis_results/MSFT_detailed_analysis.md`: Detailed reports from all analysts and investors
+- `results/MSFT_decision.md`: Final synthesized investment recommendation
+- `results/MSFT_detailed_analysis.md`: Detailed reports from all analysts and investors
 
 ## Project Structure
 
 ```
 finagents/
+├── main.py                      # Main script to run the system
 ├── src/
 │   ├── agents/
 │   │   ├── investor_agents.py   # Famous investor personas
@@ -75,12 +76,18 @@ finagents/
 │   │   ├── debate_manager.py    # Orchestrates the analysis process
 │   ├── utils/
 │   │   ├── stock_data.py        # Functions for retrieving stock data
-│   ├── main.py                  # Main script to run the system
+├── tests/                       # Comprehensive test suite
+│   ├── unit/                    # Unit tests for individual components
+│   ├── integration/             # Integration tests for the whole system
+├── results/                     # Output directory for analysis reports
 ├── requirements.txt             # Project dependencies
 ├── .env                         # Environment variables (API keys)
+├── run_tests.py                 # Script to run all tests
 ├── README.md                    # This file
 ├── ARCHITECTURE.md              # Detailed system architecture
 ├── QUICKSTART.md                # Quick start guide
+├── PERSONAS.md                  # Detailed guide to agent personas
+├── EXTENDING.md                 # Guide for extending the system
 ```
 
 ## Requirements
@@ -88,6 +95,16 @@ finagents/
 - Python 3.8+
 - Anthropic API key (for Claude 3.7)
 - Internet connection (for financial data retrieval)
+
+## Running Tests
+
+The project includes a test suite focusing on core data utilities and file operations:
+
+```bash
+python run_tests.py
+```
+
+This will run the stock data utility tests and output file tests, providing a detailed report.
 
 ## License
 

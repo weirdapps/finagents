@@ -7,12 +7,16 @@ and manages the debate about stock investment opportunities.
 
 import os
 import logging
+import sys
 from dotenv import load_dotenv
 
-from agents.investor_agents import create_investor_team
-from agents.analyst_agents import create_analyst_team
-from agents.debate_manager import DebateManager
-from utils.stock_data import get_stock_data
+# Add src directory to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+from src.agents.investor_agents import create_investor_team
+from src.agents.analyst_agents import create_analyst_team
+from src.agents.debate_manager import DebateManager
+from src.utils.stock_data import get_stock_data
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -62,7 +66,7 @@ def main():
         print(result["decision"])
         
         # Save the analysis to files
-        output_dir = "analysis_results"
+        output_dir = "results"
         import os
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)

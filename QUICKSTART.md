@@ -39,14 +39,14 @@ This guide will help you get started with FinAgents quickly.
 ## Running the Application
 
 ```bash
-python src/main.py
+python main.py
 ```
 
 By default, the system will analyze Microsoft (MSFT) stock. You'll see real-time progress as each agent completes its analysis in parallel.
 
 ## Understanding the Results
 
-The system generates two types of files in the `analysis_results` directory:
+The system generates two types of files in the `results` directory:
 
 1. **Decision Summary**: `MSFT_decision.md`
    - Final investment recommendation (Buy/Hold/Sell)
@@ -67,7 +67,7 @@ The system generates two types of files in the `analysis_results` directory:
 Edit the `main.py` file to change the default stock:
 
 ```python
-# Change this line in src/main.py
+# Change this line in main.py
 stocks_to_analyze = ["AAPL"]  # or any ticker symbol
 ```
 
@@ -127,6 +127,16 @@ The system produces a comprehensive investment analysis like this:
 - Valuation Risk: At a P/E of 32, Microsoft has limited room for execution missteps...
 ...
 ```
+
+## Testing
+
+Run the test suite to verify the core functionality:
+
+```bash
+python run_tests.py
+```
+
+This will test the stock data utility functions and file operations.
 
 ## Troubleshooting
 

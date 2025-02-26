@@ -65,14 +65,14 @@ The debate manager uses:
 
 ### 4. Presentation Layer
 
-#### Main Application (`src/main.py`)
+#### Main Application (`main.py`)
 
 Handles the user interface and process flow:
 
-- Stock ticker input
 - Progress reporting to terminal
 - Comprehensive output formatting
 - Writing results to Markdown files for easy consumption
+- Output organization in the `results` directory
 
 ## Data Flow
 
@@ -99,7 +99,7 @@ Handles the user interface and process flow:
 
 5. **Output Generation**:
    - Results are displayed in the terminal
-   - Detailed reports are saved as Markdown files
+   - Detailed reports are saved as Markdown files in the `results` directory
 
 ## Technical Implementation
 
@@ -108,6 +108,25 @@ Handles the user interface and process flow:
 - **Timeout Management**: API calls have configurable timeouts
 - **Performance Tracking**: Time measurement for each phase
 - **Stateless Design**: Agents maintain no state between invocations
+- **Comprehensive Testing**: Unit and integration tests for all components
+
+## Testing Architecture
+
+The testing strategy focuses on stable components that don't require extensive mocking:
+
+- **Stock Data Unit Tests**: Testing the data processing functions
+  - Calculate financial ratios
+  - Extract values from statements
+  - Process historical data
+  - Trend analysis
+  - Error handling
+
+- **Output File Tests**: Testing file operations
+  - Directory creation
+  - Markdown file generation
+  - File content verification
+
+- **Test Runner**: A dedicated script to run stable tests
 
 ## Extension Points
 
