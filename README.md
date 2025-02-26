@@ -109,3 +109,7 @@ This will run the stock data utility tests and output file tests, providing a de
 ## License
 
 MIT
+
+## DISCLAIMER: 
+
+This project is purely educational. The AI-generated personas are fictional and do not represent real statements or endorsements from Warren Buffett, Ray Dalio, Cathie Wood, Peter Lynch, or Michael Burry.
