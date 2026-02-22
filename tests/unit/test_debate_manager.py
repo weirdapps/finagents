@@ -42,46 +42,34 @@ class TestDebateManager(unittest.TestCase):
         self.assertIsInstance(context, str)
         self.assertIn("market indicators", context.lower())
     
-    @patch('concurrent.futures.ThreadPoolExecutor')
-    def test_get_analyst_reports(self, mock_executor):
-        """Test that analyst reports are retrieved in parallel"""
-        # Setup mocks
-        mock_future = MagicMock()
-        mock_future.result.return_value = ('Analyst1', 'Test report')
-        
-        mock_executor_instance = MagicMock()
-        mock_executor_instance.__enter__.return_value = mock_executor_instance
-        mock_executor_instance.submit.return_value = mock_future
-        mock_executor.return_value = mock_executor_instance
-        
+    def test_get_analyst_reports(self):
+        """Test that analyst reports are retrieved"""
+        # Setup mock agents to return reports
+        for name, agent in self.analyst_team.items():
+            agent.invoke.return_value = {'text': f'Report from {name}'}
+
         # Call the method
         stock_data = {'key': 'value'}
         reports = self.debate_manager.get_analyst_reports('AAPL', stock_data)
-        
+
         # Check results
         self.assertIsInstance(reports, dict)
-        self.assertEqual(mock_executor_instance.submit.call_count, len(self.analyst_team))
-    
-    @patch('concurrent.futures.ThreadPoolExecutor')
-    def test_get_investor_opinions(self, mock_executor):
-        """Test that investor opinions are retrieved in parallel"""
-        # Setup mocks
-        mock_future = MagicMock()
-        mock_future.result.return_value = ('Investor1', 'Test opinion')
-        
-        mock_executor_instance = MagicMock()
-        mock_executor_instance.__enter__.return_value = mock_executor_instance
-        mock_executor_instance.submit.return_value = mock_future
-        mock_executor.return_value = mock_executor_instance
-        
+        self.assertEqual(len(reports), len(self.analyst_team))
+
+    def test_get_investor_opinions(self):
+        """Test that investor opinions are retrieved"""
+        # Setup mock agents to return opinions
+        for name, agent in self.investor_team.items():
+            agent.invoke.return_value = {'text': f'Opinion from {name}'}
+
         # Call the method
         stock_data = {'key': 'value'}
         analyst_reports = {'Analyst1': 'Report text'}
         opinions = self.debate_manager.get_investor_opinions('AAPL', stock_data, analyst_reports)
-        
+
         # Check results
         self.assertIsInstance(opinions, dict)
-        self.assertEqual(mock_executor_instance.submit.call_count, len(self.investor_team))
+        self.assertEqual(len(opinions), len(self.investor_team))
     
     def test_synthesize_decision(self):
         """Test that decision synthesis works correctly"""
