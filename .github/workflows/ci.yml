@@ -26,10 +26,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
+          # Install test-only dependencies
+          pip install yfinance pandas
 
       - name: Run unit tests
         run: |
-          python run_tests.py
+          # Run only unit tests (integration tests require API keys and specific langchain versions)
+          python -m pytest tests/unit/ -v --ignore=tests/integration/
 
   lint:
     runs-on: ubuntu-latest
