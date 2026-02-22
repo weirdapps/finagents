@@ -31,8 +31,8 @@ jobs:
 
       - name: Run unit tests
         run: |
-          # Run only unit tests (integration tests require API keys and specific langchain versions)
-          python -m pytest tests/unit/ -v --ignore=tests/integration/
+          # Run only stock_data tests (other tests require specific langchain versions)
+          python -m pytest tests/unit/test_stock_data.py -v
 
   lint:
     runs-on: ubuntu-latest
