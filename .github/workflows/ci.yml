@@ -31,8 +31,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          # Run only stock_data tests (other tests require specific langchain versions)
-          python -m pytest tests/unit/test_stock_data.py -v
+          python -m pytest tests/unit/ -v
 
   lint:
     runs-on: ubuntu-latest

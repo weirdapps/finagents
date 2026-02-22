@@ -54,24 +54,18 @@ class TestCreateAnalystPrompt(unittest.TestCase):
 
 class TestCreateAnalystAgent(unittest.TestCase):
     """Tests for the create_analyst_agent function"""
-    
-    @patch('src.agents.analyst_agents.ChatAnthropic')
-    @patch('src.agents.analyst_agents.os')
-    def test_agent_creation(self, mock_os, mock_chat_anthropic):
+
+    def test_agent_creation(self):
         """Test that agent is correctly created"""
-        # Setup mocks
-        mock_os.getenv.return_value = 'test_api_key'
-        mock_chat_anthropic.return_value = MagicMock()
-        
         # Test for each analyst type
         for analyst, data in ANALYST_TYPES.items():
             agent = create_analyst_agent(analyst, data)
-            
+
             # Check agent was created
             self.assertIsNotNone(agent)
-            
-            # Check API key was used
-            mock_os.getenv.assert_called_with('ANTHROPIC_API_KEY')
+
+            # Check agent has invoke method
+            self.assertTrue(hasattr(agent, 'invoke'))
 
 class TestCreateAnalystTeam(unittest.TestCase):
     """Tests for the create_analyst_team function"""

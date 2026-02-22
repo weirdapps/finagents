@@ -5,13 +5,8 @@ This module defines famous investor personas as agents who debate investment opp
 Each investor has a distinct investment philosophy and methodology based on their real-world counterpart.
 """
 
-import os
 from typing import List, Dict, Any
-from langchain.agents import AgentExecutor
-from langchain_anthropic import ChatAnthropic
-from langchain.prompts import ChatPromptTemplate
-from langchain.tools import Tool
-from langchain.chains import LLMChain
+from langchain_core.prompts import ChatPromptTemplate
 
 # Investor personas with their investment philosophies
 INVESTOR_PERSONAS = {

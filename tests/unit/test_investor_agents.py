@@ -53,24 +53,18 @@ class TestCreateInvestorPrompt(unittest.TestCase):
 
 class TestCreateInvestorAgent(unittest.TestCase):
     """Tests for the create_investor_agent function"""
-    
-    @patch('src.agents.investor_agents.ChatAnthropic')
-    @patch('src.agents.investor_agents.os')
-    def test_agent_creation(self, mock_os, mock_chat_anthropic):
+
+    def test_agent_creation(self):
         """Test that agent is correctly created"""
-        # Setup mocks
-        mock_os.getenv.return_value = 'test_api_key'
-        mock_chat_anthropic.return_value = MagicMock()
-        
         # Test for each investor
         for investor, data in INVESTOR_PERSONAS.items():
             agent = create_investor_agent(investor, data)
-            
+
             # Check agent was created
             self.assertIsNotNone(agent)
-            
-            # Check API key was used
-            mock_os.getenv.assert_called_with('ANTHROPIC_API_KEY')
+
+            # Check agent has invoke method
+            self.assertTrue(hasattr(agent, 'invoke'))
 
 class TestCreateInvestorTeam(unittest.TestCase):
     """Tests for the create_investor_team function"""

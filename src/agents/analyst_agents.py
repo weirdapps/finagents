@@ -5,11 +5,8 @@ This module defines financial analyst agents that gather and analyze information
 about stocks to provide reports for the investor agents to debate.
 """
 
-import os
 from typing import Dict, List, Any
-from langchain_anthropic import ChatAnthropic
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains import LLMChain
+from langchain_core.prompts import ChatPromptTemplate
 
 # Analyst types with their focus areas
 ANALYST_TYPES = {
@@ -84,7 +81,7 @@ def create_analyst_agent(analyst_type: str, analyst_data: Dict[str, str]):
 
     return LocalAnalyst(analyst_type)
 
-def create_analyst_team() -> Dict[str, LLMChain]:
+def create_analyst_team() -> Dict[str, Any]:
     """Create a team of analyst agents."""
     analysts = {}
     
