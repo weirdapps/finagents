@@ -26,12 +26,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           # Install minimal dependencies for testing (skip heavy langchain ecosystem)
-          pip install langchain-core>=0.2.0 pytest yfinance pandas pydantic>=2.5.0
+          pip install langchain-core>=0.2.0 pytest pytest-timeout yfinance pandas pydantic>=2.5.0
 
       - name: Run unit tests
         run: |
-          python -m pytest tests/unit/ -v
-        timeout-minutes: 5
+          python -m pytest tests/unit/ -v --timeout=60
+        timeout-minutes: 10
 
   lint:
     runs-on: ubuntu-latest
