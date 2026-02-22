@@ -91,7 +91,7 @@ Based on this information, would you invest in this stock? Provide your reasonin
         ("human", human_template)
     ])
 
-def create_investor_agent(persona_name: str, persona_data: Dict[str, Any], tools: List[Tool] = None):
+def create_investor_agent(persona_name: str, persona_data: Dict[str, Any], tools: List[Any] = None):
     """Create an agent for a specific investor persona."""
     # Use local Claude responses instead of API calls
     from local_claude_responses import INVESTOR_OPINIONS, get_generic_investor_opinion
