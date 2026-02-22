@@ -13,10 +13,10 @@ from dotenv import load_dotenv
 # Add src directory to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from src.agents.investor_agents import create_investor_team
-from src.agents.analyst_agents import create_analyst_team
-from src.agents.debate_manager import DebateManager
-from src.utils.stock_data import get_stock_data
+from agents.investor_agents import create_investor_team
+from agents.analyst_agents import create_analyst_team
+from agents.debate_manager import DebateManager
+from utils.stock_data import get_stock_data
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -28,11 +28,34 @@ load_dotenv()
 def main():
     """Main function to run the financial agents debate system."""
     logger.info("Starting FinAgents System")
-    
-    # Get stocks to analyze - use MSFT for simplicity
-    stocks_to_analyze = ["MSFT"]
-    print(f"Analyzing stock: {stocks_to_analyze[0]}")
-    
+
+    # Read stocks from portfolio CSV
+    import pandas as pd
+    portfolio_path = os.path.expanduser("~/SourceCode/etorotrade/yahoofinance/output/portfolio.csv")
+
+    try:
+        df = pd.read_csv(portfolio_path)
+        # Filter out ETFs, crypto, and empty rows
+        stocks_df = df[df['BS'] != 'I']
+        stocks_to_analyze = stocks_df['TICKER'].dropna().tolist()
+        # Remove crypto tickers
+        stocks_to_analyze = [s for s in stocks_to_analyze if '-USD' not in s and s.strip() != '']
+
+        print(f"\n{'='*80}")
+        print(f"PORTFOLIO ANALYSIS")
+        print(f"{'='*80}")
+        print(f"Analyzing {len(stocks_to_analyze)} stocks from portfolio:")
+        for i, ticker in enumerate(stocks_to_analyze[:10], 1):
+            print(f"  {i}. {ticker}")
+        if len(stocks_to_analyze) > 10:
+            print(f"  ... and {len(stocks_to_analyze) - 10} more")
+        print(f"{'='*80}\n")
+
+    except Exception as e:
+        logger.error(f"Error reading portfolio: {e}")
+        print(f"Error reading portfolio, using MSFT as default")
+        stocks_to_analyze = ["MSFT"]
+
     logger.info(f"Stocks to analyze: {stocks_to_analyze}")
     
     # Create investor team
@@ -67,7 +90,6 @@ def main():
         
         # Save the analysis to files
         output_dir = "results"
-        import os
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
             

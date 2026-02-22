@@ -96,26 +96,27 @@ Based on this information, would you invest in this stock? Provide your reasonin
         ("human", human_template)
     ])
 
-def create_investor_agent(persona_name: str, persona_data: Dict[str, Any], tools: List[Tool] = None) -> AgentExecutor:
+def create_investor_agent(persona_name: str, persona_data: Dict[str, Any], tools: List[Tool] = None):
     """Create an agent for a specific investor persona."""
-    # Initialize the LLM with timeout
-    model_name = os.getenv("DEFAULT_MODEL", "claude-3-7-sonnet-20250219")
-    llm = ChatAnthropic(
-        model=model_name, 
-        temperature=0.2, 
-        anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
-        timeout=300.0  # 5 minute timeout
-    )
-    
-    # Create the prompt
-    prompt = create_investor_prompt(persona_name, persona_data)
-    
-    # Create a chain
-    chain = LLMChain(llm=llm, prompt=prompt)
-    
-    # For now, we're using a simple chain instead of a full agent executor
-    # In a more complex implementation, we could use a full agent executor with tools
-    return chain
+    # Use local Claude responses instead of API calls
+    from local_claude_responses import INVESTOR_OPINIONS, get_generic_investor_opinion
+
+    class LocalInvestor:
+        def __init__(self, persona_name):
+            self.persona_name = persona_name
+
+        def invoke(self, inputs):
+            # Get ticker from inputs
+            ticker = inputs.get('ticker', 'UNKNOWN')
+            stock_info = inputs.get('stock_info', {})
+
+            # Use pre-generated MSFT response or generate generic response
+            if ticker == 'MSFT' and self.persona_name in INVESTOR_OPINIONS:
+                return {"text": INVESTOR_OPINIONS[self.persona_name]}
+            else:
+                return {"text": get_generic_investor_opinion(self.persona_name, ticker, stock_info)}
+
+    return LocalInvestor(persona_name)
 
 def create_investor_team() -> Dict[str, Any]:
     """Create a team of investor agents based on famous personas."""

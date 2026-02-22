@@ -44,3 +44,11 @@ Thumbs.db
 *.log
 .coverage
 htmlcov/
+
+# Generated analysis results (regenerated on each run)
+results/
+
+# Environment
+.envrc
+.python-version
+.direnv/
