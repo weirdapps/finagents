@@ -31,7 +31,7 @@ def main():
 
     # Read stocks from portfolio CSV
     import pandas as pd
-    portfolio_path = os.path.expanduser("~/SourceCode/etorotrade/yahoofinance/output/portfolio.csv")
+    portfolio_path = os.getenv("PORTFOLIO_PATH", os.path.expanduser("~/SourceCode/etorotrade/yahoofinance/output/portfolio.csv"))
 
     try:
         df = pd.read_csv(portfolio_path)
