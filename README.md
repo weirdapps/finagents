@@ -11,6 +11,10 @@ FinAgents creates a virtual investment committee where AI agents with personas o
 3. Has investor agents with unique investment philosophies debate the merits
 4. Synthesizes a comprehensive investment recommendation
 
+## Current Status
+
+> **Prototype**: This system currently uses **pre-generated static responses** instead of live LLM calls. The investor and analyst agents return canned text from `local_claude_responses.py` rather than calling the Anthropic API. Financial data retrieval via yfinance is real, but the AI debate is simulated. See [Making It Operational](#making-it-operational) below for instructions on wiring up real LLM calls.
+
 ## Key Features
 
 - **Parallel Processing**: Agents run concurrently for faster analysis
@@ -105,6 +109,55 @@ python run_tests.py
 ```
 
 This will run the stock data utility tests and output file tests, providing a detailed report.
+
+## Making It Operational
+
+To convert this prototype into a fully operational system with real LLM calls:
+
+### 1. Wire up the Anthropic API
+
+Replace the `LocalInvestor` and `LocalAnalyst` classes with real LangChain LLM calls. In `src/agents/investor_agents.py` and `src/agents/analyst_agents.py`, the `create_investor_agent()` and `create_analyst_agent()` functions currently return `LocalInvestor`/`LocalAnalyst` objects that serve canned responses. Replace them with LangChain's `ChatAnthropic`:
+
+```python
+from langchain_anthropic import ChatAnthropic
+
+def create_investor_agent(persona_name: str):
+    llm = ChatAnthropic(model=os.getenv("DEFAULT_MODEL", "claude-sonnet-4-20250514"))
+    prompt = create_investor_prompt(persona_name)  # Already defined in the file
+    return prompt | llm
+```
+
+### 2. Remove mock infrastructure
+
+- Delete `local_claude_responses.py` (1,556 lines of static responses)
+- Remove `from unittest.mock import MagicMock` from `debate_manager.py`
+- Replace `self.llm = MagicMock()` and `self.synthesis_chain = MagicMock()` with real LangChain chain instances
+
+### 3. Add live market context
+
+Replace `debate_manager.py`'s `get_market_context()` static placeholder with real data. Options:
+- Use `yfinance` to fetch S&P 500, VIX, and Treasury yields (already a dependency)
+- Use a financial news API for current market sentiment
+
+### 4. Make the portfolio path configurable
+
+In `main.py`, the portfolio path is hardcoded. Replace with:
+```python
+portfolio_path = os.getenv(
+    "PORTFOLIO_PATH",
+    os.path.expanduser("~/SourceCode/etorotrade/yahoofinance/output/portfolio.csv")
+)
+```
+
+### 5. Install additional dependency
+
+```bash
+pip install langchain-anthropic
+```
+
+### 6. Sync setup.py with requirements.txt
+
+Update `setup.py` version constraints to match `requirements.txt` (langchain `>=0.2.0`, langchain-community `>=0.2.0`).
 
 ## License
 
