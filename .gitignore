@@ -56,3 +56,9 @@ results/
 # Claude Code (commit CLAUDE.md, ignore local settings)
 .claude/settings.json
 .claude/settings.local.json
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
