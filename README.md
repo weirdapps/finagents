@@ -48,7 +48,7 @@ pip install -r requirements.txt
 Create a `.env` file with:
 ```
 ANTHROPIC_API_KEY=your_api_key_here
-DEFAULT_MODEL=claude-3-7-sonnet-20250219
+DEFAULT_MODEL=claude-sonnet-4-5-20250929
 STOCK_DATA_SOURCE=yfinance
 ```
 
@@ -122,7 +122,7 @@ Replace the `LocalInvestor` and `LocalAnalyst` classes with real LangChain LLM c
 from langchain_anthropic import ChatAnthropic
 
 def create_investor_agent(persona_name: str):
-    llm = ChatAnthropic(model=os.getenv("DEFAULT_MODEL", "claude-sonnet-4-20250514"))
+    llm = ChatAnthropic(model=os.getenv("DEFAULT_MODEL", "claude-sonnet-4-5-20250929"))
     prompt = create_investor_prompt(persona_name)  # Already defined in the file
     return prompt | llm
 ```

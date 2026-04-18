@@ -32,7 +32,7 @@ This guide will help you get started with FinAgents quickly.
    Edit the `.env` file and add your Anthropic API key:
    ```
    ANTHROPIC_API_KEY=your_api_key_here
-   DEFAULT_MODEL=claude-3-7-sonnet-20250219
+   DEFAULT_MODEL=claude-sonnet-4-5-20250929
    STOCK_DATA_SOURCE=yfinance
    ```
 
