@@ -1,6 +1,6 @@
 langchain>=1.2.15
 langchain-core>=1.2.31
-langchain-anthropic>=1.4.0
+langchain-anthropic>=1.4.1
 langchain-community>=0.4.1
 python-dotenv>=1.2.2
 pandas>=3.0.2
