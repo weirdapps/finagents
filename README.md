@@ -1,4 +1,6 @@
-# FinAgents
+# FinAgents (Archived)
+
+> **DEPRECATED**: This prototype has been superseded by the [trading-hub investment committee](https://github.com/weirdapps/trading-marketplace) — a production 7-agent system with adversarial debate, codified conviction scoring (CIO v33.0), and self-improving backtest loop. This repo is archived for reference only.
 
 A multi-agent system that simulates a debate between famous investors analyzing stock investment opportunities.
 
